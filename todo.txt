@@ -1,0 +1,6 @@
+setUpSpider()
+drawSpider()
+
+drawRedAnts()
+moveRedAnts()
+
