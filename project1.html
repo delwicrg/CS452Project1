@@ -1,0 +1,64 @@
+<!-- 
+    Rosalina Delwiche and Holly Rossmann
+    CS452 Project 1
+    March 11, 2022
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+            <title>CS452L2 Rosalina Delwiche</title>
+            
+            <script type="text/javascript" src="../Common/webgl-utils.js"></script>
+            <script type="text/javascript" src="../Common/initShaders.js"></script>
+            <script type="text/javascript" src="../Common/MV.js"></script>
+            <script type="text/javascript" src="project1.js"></script>
+            <script type="x-shader/x-vertex" id = "vertex-shader">
+            attribute vec4 myPosition;
+            uniform float theta;
+            
+            uniform vec2 mouseCoordinates;
+
+
+            void main(){
+                float xi, yi, xf, yf;
+                xi = myPosition.x;
+                yi = myPosition.y;
+
+
+                xf =  xi * cos(theta) + yi * sin(theta) + mouseCoordinates.x;
+                yf = -xi * sin(theta) + yi * cos(theta) + mouseCoordinates.y ;
+
+                gl_Position.x = xf;            
+                gl_Position.y = yf;
+                gl_Position.z = .0;
+                gl_Position.w = 1.0;
+
+
+                gl_PointSize = 1.0;
+            }
+            </script>
+    
+            <!-- color hexagon -->
+            <script type ="x-shader/x-fragment" id= "fragment-shader-hexagon">
+                void main(){
+                    gl_FragColor = vec4(128,0,128,0.5);
+                }
+            </script>
+            
+    </head>
+    
+    <body onload = "init()" onkeydown = "moveSquareKeys(event)">
+        <canvas id = "gl-canvas" height = "700" width = "700" onclick = "moveHexagon(event)"></canvas><br/>
+
+        <button id = "inc" onclick = "incSpeed()">Increase</button>
+        <button id = "dec" onclick = "decSpeed()">Decrease</button>
+        <button id = "startRotate" onclick = "startRotate()">Start Rotate</button>
+        <button id = "startRotate" onclick = "stopRotate()">Stop Rotate</button>
+
+
+    </body>
+
+</html>
+
+
