@@ -9,9 +9,9 @@
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
             <title>Project 1</title>
             
-            <script type="text/javascript" src="../Common/webgl-utils.js"></script>
-            <script type="text/javascript" src="../Common/initShaders.js"></script>
-            <script type="text/javascript" src="../Common/MV.js"></script>
+            <script type="text/javascript" src="webgl-utils.js"></script>
+            <script type="text/javascript" src="initShaders.js"></script>
+            <script type="text/javascript" src="MV.js"></script>
             <script type="text/javascript" src="project1.js"></script>
             <script type="x-shader/x-vertex" id = "vertex-shader">
             attribute vec4 myPosition;
@@ -26,8 +26,8 @@
                 yi = myPosition.y;
 
 
-                xf =  xi * cos(theta) + yi * sin(theta); // + mouseCoordinates.x;
-                yf = -xi * sin(theta) + yi * cos(theta); // + mouseCoordinates.y ;
+                xf =  xi * cos(theta) + yi * sin(theta) + mouseCoordinates.x;
+                yf = -xi * sin(theta) + yi * cos(theta) + mouseCoordinates.y ;
 
                 gl_Position.x = xf;            
                 gl_Position.y = yf;
@@ -48,10 +48,9 @@
             
     </head>
     
-    <body onload = "init()" onkeydown = "moveSpider(event)">
-        <h1>ANT MANIA</h1>
-        <canvas id = "gl-canvas" height = "700" width = "700" img="background.jpg"></canvas><br/>
-        <img id="background" src="background.jpg">
+    <body onload = "init()" onkeydown = "moveSquareKeys(event)">
+        <canvas id = "gl-canvas" height = "700" width = "700"></canvas><br/>
+
         <!--
         <button id = "inc" onclick = "incSpeed()">Increase</button>
         <button id = "dec" onclick = "decSpeed()">Decrease</button>
@@ -61,8 +60,6 @@
 
 
     </body>
-    
+    <h1>ANT MANIA</h1>
 
 </html>
-
-
