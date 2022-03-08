@@ -38,7 +38,7 @@
         gl.clearColor( 0.0, 0.0, 128.0, 1.0); // set up background color
     
     
-        myShaderProgram = initShaders( gl,"vertex-shader", "fragment-shader-hexagon" ); // pink
+        myShaderProgram = initShaders( gl,"vertex-shader", "fragment-shader-spider" ); // pink
         gl.useProgram( myShaderProgram );
     
     
@@ -56,9 +56,9 @@
         gl.uniform2f(mouseCoordinatesUniform,tx,ty);
     
     
-        setUpHexagon();
+        setUpSpider();
     
-        requestAnimFrame(drawHexagon);
+        requestAnimFrame(drawSpider);
     }
     
     function moveSquareKeys( event ){
@@ -92,7 +92,7 @@
     
     
         
-    function setUpHexagon() {
+    function setUpSpider(){
         var p0 = vec2(-.1,0);
         var p1 = vec2(-.05, .1);
         var p2 = vec2(.05, .1);
@@ -118,7 +118,7 @@
         
     }
     
-    function moveHexagon(event){
+    function moveSpider(event){
         var canvasX = event.clientX;
         var canvasY = event.clientY;
     
@@ -136,15 +136,16 @@
 
     
     function incSpeed(){ offset += INCREMENT;}
+    
     function decSpeed(){ 
-    if((offset - INCREMENT) >= 0){
-        offset -= INCREMENT;
-    }
-    else{ offset = 0;}
-}    
+        if((offset - INCREMENT) >= 0){
+            offset -= INCREMENT;
+        }
+        else{ offset = 0;}
+    }    
     
     
-    function drawHexagon(){
+    function drawSpider(){
         gl.clear( gl.COLOR_BUFFER_BIT ); // force the webgl context to clear the color buffer
     
         thetaAnim += .03 * stopStartFlag;
@@ -153,5 +154,17 @@
     
         gl.drawArrays(gl.TRIANGLE_FAN,0,6);
     
-        requestAnimFrame(drawHexagon);
+        requestAnimFrame(drawSpider);
     }
+
+
+
+    function drawAnts(){
+
+    }
+
+    function moveAnts(){
+
+    }
+
+    
