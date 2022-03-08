@@ -26,8 +26,8 @@
                 yi = myPosition.y;
 
 
-                xf =  xi * cos(theta) + yi * sin(theta) + mouseCoordinates.x;
-                yf = -xi * sin(theta) + yi * cos(theta) + mouseCoordinates.y ;
+                xf =  xi * cos(theta) + yi * sin(theta); // + mouseCoordinates.x;
+                yf = -xi * sin(theta) + yi * cos(theta); // + mouseCoordinates.y ;
 
                 gl_Position.x = xf;            
                 gl_Position.y = yf;
@@ -48,9 +48,10 @@
             
     </head>
     
-    <body onload = "init()" onkeydown = "moveSquareKeys(event)">
-        <canvas id = "gl-canvas" height = "700" width = "700"></canvas><br/>
-
+    <body onload = "init()" onkeydown = "moveSpider(event)">
+        <h1>ANT MANIA</h1>
+        <canvas id = "gl-canvas" height = "700" width = "700" img="background.jpg"></canvas><br/>
+        <img id="background" src="background.jpg">
         <!--
         <button id = "inc" onclick = "incSpeed()">Increase</button>
         <button id = "dec" onclick = "decSpeed()">Decrease</button>
@@ -60,7 +61,7 @@
 
 
     </body>
-    <h1>ANT MANIA</h1>
+    
 
 </html>
 
