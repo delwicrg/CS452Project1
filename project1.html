@@ -21,6 +21,7 @@
 
             void main(){
                 float xi, yi, xf, yf;
+
                 xi = myPosition.x;
                 yi = myPosition.y;
 
@@ -33,12 +34,13 @@
                 gl_Position.z = .0;
                 gl_Position.w = 1.0;
 
-                gl_PointSize = 1.0;
+                
 
                 gl_PointSize = 1.0;
                 gl_Position = myPosition;
 
-                //for fruit
+                
+
                 
             }
             </script>
@@ -57,10 +59,10 @@
             </script>
             
     </head>
-    
+    <h1>SHAPE MANIA</h1>
     <body onload = "init()" onkeydown = "moveSquareKeys(event)">
         <canvas id = "gl-canvas" height = "700" width = "700"></canvas><br/>
     </body>
-    <h1>ANT MANIA</h1>
+    
 
 </html>

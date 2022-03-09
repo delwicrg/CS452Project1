@@ -85,7 +85,7 @@ function drawFruit(xFruit, yFruit){
 
 function setUpSpider(){
     //initalize spider
-    console.log("beginnign of spider setup");
+    console.log("beginning of spider setup");
 
     var p0 = vec2(-.1,0);
     var p1 = vec2(-.05, .1);
@@ -115,7 +115,6 @@ function render(){
     thetaAnim += .03 * stopStartFlag;
     var thetaUniform = gl.getUniformLocation(myShaderSpider, "theta");
     gl.uniform1f(thetaUniform, thetaAnim)
-
 
     gl.bindBuffer(gl.ARRAY_BUFFER, bufferIdSpider);
 
@@ -174,7 +173,10 @@ function moveSquareKeys( event ){
 
     var mouseCoordinatesUniform = gl.getUniformLocation(myShaderSpider, "mouseCoordinates");
     gl.uniform2f(mouseCoordinatesUniform,tx,ty);
+
     console.log("done moving. tx was " + tx + " ty was "+ ty);
+
+    
 }
 
 
