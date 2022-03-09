@@ -11,9 +11,11 @@ var count;
 var thetaSpider; var thetaFruit; var thetaAnt;
 var tx = 0.0; var ty = 0.0;
 var tx_ant; var ty_ant; var direction_ant;
-var offset = 0.01;
-const INCREMENT  = .001; 
+var offset = 0.1;
+const INCREMENT  = .01; 
 var myPoint;
+var gameOver = false;
+
 
 function init(){
     var canvas = document.getElementById("gl-canvas");
@@ -27,8 +29,8 @@ function init(){
     thetaFruit = 0.0;
     thetaAnt = 0.0;
     
-    tx_ant = 0.0;
-    ty_ant = 0.0;
+    tx_ant = 0.5;
+    ty_ant = 0.5;
     direction_ant = "up";
 
     //INITALIZE PROGRAMS
@@ -101,7 +103,7 @@ function drawAnt(){
     var p4 = vec2( 0.025,  0.05); 
     var p5 = vec2( 0.05,  0.025); 
     var p6 = vec2( 0.05, -0.025); 
-    var p7 = vec2( 0.025, -0.05); 
+    var p7 = vec2( 0.025, -0.05);
 
     arrayOfPointsAnt = [p0,p1,p2,p3,p4,p5,p6,p7];
 
@@ -189,7 +191,10 @@ function render(){
     //set up attributes for the fruit based on the current buffer
        gl.drawArrays(gl.TRIANGLE_FAN, 0, 8);  
 
-    requestAnimFrame(render);
+     if(gameOver == false){
+        requestAnimFrame(render);
+        isCloseToAnt();
+    }
 }
 
 
@@ -211,6 +216,60 @@ function moveSquareKeys( event ){
         ty -= offset;
     }
 
+
     var mouseCoordinatesUniform = gl.getUniformLocation(myShaderSpider, "mouseCoordinates");
     gl.uniform2f(mouseCoordinatesUniform,tx,ty);
+
+}
+
+
+function isCloseToAnt(){
+    console.log("ANT (" + tx_ant + " , " + ty_ant + ")\n");
+    console.log("MAIN (" + tx + " , " + ty + ")\n");
+
+    var tx_ant_arr = [tx_ant, (tx_ant-.05),(tx_ant+.05)];
+    var ty_ant_arr = [ty_ant, (ty_ant-.05),(ty_ant+.05)];
+    var x = 0;
+
+    for(x = 0; x < 3; x++){
+        if((tx_ant_arr[x] > (tx-.1)) && (tx_ant_arr[x]< (tx+.1))) 
+        {
+             if( (ty_ant_arr[x] > (ty-.1)) && (ty_ant_arr[x]< (ty+.1))) {
+                 console.log("DIE\n");
+                 gameOver = true;
+             }      
+        }
+        else{};
+    }
+
+    /*
+
+   if( (tx_ant > (tx-.1)) && (tx_ant < (tx+.1))) 
+   {
+        if( (ty_ant > (ty-.1)) && (ty_ant < (ty+.1))) {
+            console.log("DIE\n");
+            gameOver = true;
+        }      
+   }
+
+   else if( ((tx_ant - .05) > (tx-.1)) && ((tx_ant - .05) < (tx+.1))) 
+   {
+        if( ((ty_ant - .05) > (ty-.1)) && ((ty_ant - .05)< (ty+.1))) {
+            console.log("DIE\n");
+            gameOver = true;
+        }      
+   }
+
+   else if( ((tx_ant + .05) > (tx-.1)) && ((tx_ant + .05) < (tx+.1))) 
+   {
+        if( ((ty_ant + .05) > (ty-.1)) && ((ty_ant + .05)< (ty+.1))) {
+            console.log("DIE\n");
+            gameOver = true;
+        }      
+   }
+
+   else{
+       console.log("SAFE\n");
+   }
+   */
 }
