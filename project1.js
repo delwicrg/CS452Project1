@@ -239,37 +239,5 @@ function isCloseToAnt(){
                  gameOver = true;
              }      
         }
-        else{};
     }
-
-    /*
-
-   if( (tx_ant > (tx-.1)) && (tx_ant < (tx+.1))) 
-   {
-        if( (ty_ant > (ty-.1)) && (ty_ant < (ty+.1))) {
-            console.log("DIE\n");
-            gameOver = true;
-        }      
-   }
-
-   else if( ((tx_ant - .05) > (tx-.1)) && ((tx_ant - .05) < (tx+.1))) 
-   {
-        if( ((ty_ant - .05) > (ty-.1)) && ((ty_ant - .05)< (ty+.1))) {
-            console.log("DIE\n");
-            gameOver = true;
-        }      
-   }
-
-   else if( ((tx_ant + .05) > (tx-.1)) && ((tx_ant + .05) < (tx+.1))) 
-   {
-        if( ((ty_ant + .05) > (ty-.1)) && ((ty_ant + .05)< (ty+.1))) {
-            console.log("DIE\n");
-            gameOver = true;
-        }      
-   }
-
-   else{
-       console.log("SAFE\n");
-   }
-   */
 }
