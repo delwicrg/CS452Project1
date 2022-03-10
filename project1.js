@@ -279,9 +279,39 @@ function moveSquareKeys( event ){
     else if(theKeyCode == 83 ){     // s, move down
         ty -= offset;
     }
+    else if(theKeyCode == 82 ){     // to restart the game
+        var myDiv = document.getElementById("countdowntimer");
+        myDiv.innerHTML = 120;
+        remaining = 120;
+        score = 0;
 
-    var mouseCoordinatesUniform = gl.getUniformLocation(myShaderSpider, "mouseCoordinates");
-    gl.uniform2f(mouseCoordinatesUniform,tx,ty);
+        offset = 0.1;
+
+        tx = 0.0;
+        ty = 0.0;
+
+        tx_ant = 0.5;
+        ty_ant = 0.5;
+        direction_ant = "up";
+
+
+        tx_ant_1 = .75;
+        ty_ant_1 = .75;
+        direction_ant_1 = "up";
+
+        tx_ant_2 = -0.5;
+        ty_ant_2 = -0.5;
+        direction_ant_2 = "right";
+
+        gameOver = false;
+
+        init();
+    }
+    
+    if(theKeyCode == 65 || theKeyCode == 68  || theKeyCode == 87  || theKeyCode == 83){
+        var mouseCoordinatesUniform = gl.getUniformLocation(myShaderSpider, "mouseCoordinates");
+        gl.uniform2f(mouseCoordinatesUniform,tx,ty);
+    }
 }
 
 
@@ -463,6 +493,10 @@ function render(){
         divScore.innerHTML = score + " YOU LOST";
         div.style.color = "red";
         gameOver = true;
+    }
+    else{
+        divScore.innerHTML = score;
+        div.style.color = "black";
     }
     
 
