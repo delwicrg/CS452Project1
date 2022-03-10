@@ -39,7 +39,6 @@ var minutes;
 var seconds;
 
 
-
 function init(){
     var canvas = document.getElementById("gl-canvas");
     gl = WebGLUtils.setupWebGL(canvas);
@@ -447,10 +446,25 @@ function countdown(){
 
 
 
-function render(){    
-    if(remaining == 0){
+function render(){  
+    var divScore = document.getElementById("score");
+    const div = document.getElementById("score");   
+
+    if(score == 5){
+        remaining = 1;
+
+        divScore.innerHTML = score + " YOU WIN!";
+        div.style.color = "green";
         gameOver = true;
     }
+
+    else if((remaining == 0 && score !=5) || (gameOver == true && score != 5)){
+        remaining = 1; 
+        divScore.innerHTML = score + " YOU LOST";
+        div.style.color = "red";
+        gameOver = true;
+    }
+    
 
     //uncomment when ready to implement countdown
     //document.getElementById("countdown").innerHTML = timer; 
