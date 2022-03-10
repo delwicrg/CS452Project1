@@ -3,14 +3,16 @@
 "use strict";
     
 var gl;
-var myShaderSpider; var myShaderFruit; var myShaderAnt;
-var mouseCoordinatesUniformSpider; var mouseCoordinatesUniformAnt;
-var arrayOfPointsSpider = []; var arrayOfPointsFruit = []; var arrayOfPointsAnt = [];
-var bufferIdSpider; var bufferIdFruit; var bufferIdAnt;
+var myShaderSpider; var myShaderFruit; var myShaderAnt; var myShaderAnt_1; var myShaderAnt_2;
+var mouseCoordinatesUniformSpider; var mouseCoordinatesUniformAnt; var mouseCoordinatesUniformAnt_1; var mouseCoordinatesUniformAnt_2;
+var arrayOfPointsSpider = []; var arrayOfPointsFruit = []; var arrayOfPointsAnt = []; var arrayOfPointsAnt_1 = []; var arrayOfPointsAnt_2 = [];
+var bufferIdSpider; var bufferIdFruit; var bufferIdAnt; var bufferIdAnt_1; var bufferIdAnt_2;
 var count;
-var thetaSpider; var thetaFruit; var thetaAnt;
+var thetaSpider; var thetaFruit; var thetaAnt; var thetaAnt_1; var thetaAnt_2;
 var tx = 0.0; var ty = 0.0;
 var tx_ant; var ty_ant; var direction_ant;
+var tx_ant_1; var ty_ant_1; var direction_ant_1;
+var tx_ant_2; var ty_ant_2; var direction_ant_2;
 var offset = 0.1;
 const INCREMENT  = .01; 
 var myPoint;
@@ -28,15 +30,32 @@ function init(){
     thetaSpider = 0.0;
     thetaFruit = 0.0;
     thetaAnt = 0.0;
+    thetaAnt_1 = 0.0;
+    thetaAnt_2 = 0.0;
+
     
     tx_ant = 0.5;
     ty_ant = 0.5;
     direction_ant = "up";
 
+
+    tx_ant_1 = .75;
+    ty_ant_1 = .75;
+    direction_ant_1 = "up";
+
+    tx_ant_2 = -0.5;
+    ty_ant_2 = -0.5;
+    direction_ant_2 = "right";
+
+
     //INITALIZE PROGRAMS
     myShaderSpider = initShaders( gl,"vertex-shader", "fragment-shader-spider" );
     myShaderFruit  = initShaders( gl,"vertex-shader-fruit", "fragment-shader-fruit" );
     myShaderAnt    = initShaders( gl,"vertex-shader-ant", "fragment-shader-ant" );
+    myShaderAnt_1   = initShaders( gl,"vertex-shader-ant", "fragment-shader-ant-1" );
+    myShaderAnt_2    = initShaders( gl,"vertex-shader-ant", "fragment-shader-ant-2" );
+
+
 
     //INITALIZE SHAPES AND SET UP BUFFER (INSIDE FUNCTION)
     gl.useProgram(myShaderSpider);
@@ -94,6 +113,8 @@ function drawFruit(xFruit, yFruit){
 }
 
 function drawAnt(){
+
+    // ant 1 ******************
     console.log("begin");
 
     var p0 = vec2(-0.025, -0.05); 
@@ -113,6 +134,33 @@ function drawAnt(){
     gl.bufferData(gl.ARRAY_BUFFER, flatten(arrayOfPointsAnt), gl.STATIC_DRAW);
 
     console.log("end");
+
+    // ant 2 ***************
+
+    console.log("begin");
+
+    arrayOfPointsAnt_1 = [p0,p1,p2,p3,p4,p5,p6,p7];
+
+    //set up buffer for the ant
+    bufferIdAnt_1 = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, bufferIdAnt_1);
+    gl.bufferData(gl.ARRAY_BUFFER, flatten(arrayOfPointsAnt_1), gl.STATIC_DRAW);
+
+    console.log("end");
+
+    // ant 3 *********************
+    console.log("begin");
+
+    arrayOfPointsAnt_2 = [p0,p1,p2,p3,p4,p5,p6,p7];
+
+    //set up buffer for the ant
+    bufferIdAnt_2 = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, bufferIdAnt_2);
+    gl.bufferData(gl.ARRAY_BUFFER, flatten(arrayOfPointsAnt_2), gl.STATIC_DRAW);
+
+    console.log("end");
+
+
 }
 
 function render(){
@@ -191,6 +239,83 @@ function render(){
     //set up attributes for the fruit based on the current buffer
        gl.drawArrays(gl.TRIANGLE_FAN, 0, 8);  
 
+
+
+    // ant 1 *******
+
+    //using shader program for the ant_1
+    gl.useProgram(myShaderAnt_1);
+
+    //update the animation angle for the ant_1
+    thetaAnt_1 = thetaAnt_1 + 0.1;
+    var thetaLocAnt = gl.getUniformLocation(myShaderAnt_1, "theta");
+    gl.uniform1f(thetaLocAnt, thetaAnt_1);
+
+    //console.log("direction: " + direction_ant + " ty_ant: " + ty_ant);
+    if(direction_ant_1 == "down"){
+        ty_ant_1 -= 0.01;
+    } else if (direction_ant_1 == "up"){
+        ty_ant_1 += 0.01;
+    }    
+
+    if(ty_ant_1 >= 1){
+       direction_ant_1 = "down";
+    }else if(ty_ant <= -1){
+        direction_ant_1 = "up";
+    } 
+
+    mouseCoordinatesUniformAnt_1 = gl.getUniformLocation(myShaderAnt_1, "mouseCoordinates");
+    gl.uniform2f(mouseCoordinatesUniformAnt_1, tx_ant_1, ty_ant_1);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, bufferIdAnt_1);
+
+    //set up attributes for the fruit based on the current buffer
+    var myPositionAnt = gl.getAttribLocation( myShaderAnt_1, "myPosition" );
+    gl.vertexAttribPointer( myPositionAnt, 2, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray( myPositionAnt);
+
+    //set up attributes for the fruit based on the current buffer
+       gl.drawArrays(gl.TRIANGLE_FAN, 0, 8);  
+
+
+ // ant 2 ******* this one will move left to right
+
+    //using shader program for the ant_1
+    gl.useProgram(myShaderAnt_2);
+
+    //update the animation angle for the ant_1
+    thetaAnt_2 = thetaAnt_2 + 0.1;
+    var thetaLocAnt = gl.getUniformLocation(myShaderAnt_2, "theta");
+    gl.uniform1f(thetaLocAnt, thetaAnt_2);
+
+    //console.log("direction: " + direction_ant + " ty_ant: " + ty_ant);
+    if(direction_ant_2 == "left"){
+        tx_ant_2 -= 0.01;
+    } else if (direction_ant_2 == "right"){
+        tx_ant_2 += 0.01;
+    }    
+
+    if(tx_ant_2 >= 1){
+       direction_ant_2 = "left";
+    }else if(tx_ant_2 <= -1){
+        direction_ant_2 = "right";
+    } 
+
+    mouseCoordinatesUniformAnt_2 = gl.getUniformLocation(myShaderAnt_2, "mouseCoordinates");
+    gl.uniform2f(mouseCoordinatesUniformAnt_2, tx_ant_2, ty_ant_2);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, bufferIdAnt_2);
+
+    //set up attributes for the fruit based on the current buffer
+    var myPositionAnt = gl.getAttribLocation( myShaderAnt_2, "myPosition" );
+    gl.vertexAttribPointer( myPositionAnt, 2, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray( myPositionAnt);
+
+    //set up attributes for the fruit based on the current buffer
+       gl.drawArrays(gl.TRIANGLE_FAN, 0, 8);  
+
+
+
      if(gameOver == false){
         requestAnimFrame(render);
         isCloseToAnt();
@@ -240,4 +365,37 @@ function isCloseToAnt(){
              }      
         }
     }
+
+    var tx_ant_arr_1 = [tx_ant_1, (tx_ant_1-.05),(tx_ant_1+.05)];
+    var ty_ant_arr_1 = [ty_ant_1, (ty_ant_1-.05),(ty_ant_1+.05)];
+    var x = 0;
+
+    for(x = 0; x < 3; x++){
+        if((tx_ant_arr_1[x] > (tx-.1)) && (tx_ant_arr_1[x]< (tx+.1))) 
+        {
+             if( (ty_ant_arr_1[x] > (ty-.1)) && (ty_ant_arr_1[x]< (ty+.1))) {
+                 console.log("DIE\n");
+                 gameOver = true;
+             }      
+        }
+    }
+
+    var tx_ant_arr_2 = [tx_ant_2, (tx_ant_2-.05),(tx_ant_2+.05)];
+    var ty_ant_arr_2 = [ty_ant_2, (ty_ant_2-.05),(ty_ant_2+.05)];
+    var x = 0;
+
+    for(x = 0; x < 3; x++){
+        if((tx_ant_arr_2[x] > (tx-.1)) && (tx_ant_arr_2[x]< (tx+.1))) 
+        {
+             if( (ty_ant_arr_2[x] > (ty-.1)) && (ty_ant_arr_2[x]< (ty+.1))) {
+                 console.log("DIE\n");
+                 gameOver = true;
+             }      
+        }
+    }
+
+
+
+
+
 }
