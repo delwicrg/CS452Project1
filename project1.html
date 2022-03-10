@@ -99,6 +99,26 @@
                     gl_FragColor = vec4(1, 0.7, 0.7, 1.0 );
                 }        
             </script>
+            <script type="x-shader/x-fragment" id="fragment-shader-fruit2">
+                void main() {
+                    gl_FragColor = vec4(1, 0.7, 0.7, 1.0 );
+                }        
+            </script>
+            <script type="x-shader/x-fragment" id="fragment-shader-fruit3">
+                void main() {
+                    gl_FragColor = vec4(1, 0.7, 0.7, 1.0 );
+                }        
+            </script>
+            <script type="x-shader/x-fragment" id="fragment-shader-fruit4">
+                void main() {
+                    gl_FragColor = vec4(1, 0.7, 0.7, 1.0 );
+                }        
+            </script>
+            <script type="x-shader/x-fragment" id="fragment-shader-fruit5">
+                void main() {
+                    gl_FragColor = vec4(1, 0.7, 0.7, 1.0 );
+                }        
+            </script>
 
             <script type="x-shader/x-fragment" id="fragment-shader-ant">
                 void main() {
@@ -121,7 +141,18 @@
     </head>
     <h1>SHAPE MANIA</h1>
     <body onload = "init()" onkeydown = "moveSquareKeys(event)">
-        <canvas id = "gl-canvas" height = "700" width = "700"></canvas><br/>
+
+        <div id="overlay">
+            <div>Game will end in: <span id="countdown"></span></div>
+            <div>Score: <span id="score"></span></div>
+            <div>Grab all shapes, but watch out for the reds shapes!<span ></span></div>
+          </div> 
+             
+
+        <canvas id = "gl-canvas" height = "700" width = "700"></canvas>
+
+        
+
     </body>
     
 
