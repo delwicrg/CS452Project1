@@ -448,6 +448,10 @@ function countdown(){
 
 
 function render(){    
+    if(remaining == 0){
+        gameOver = true;
+    }
+
     //uncomment when ready to implement countdown
     //document.getElementById("countdown").innerHTML = timer; 
     //countdown();

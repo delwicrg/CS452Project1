@@ -143,13 +143,31 @@
     <body onload = "init()" onkeydown = "moveSquareKeys(event)">
 
         <div id="overlay">
-            <div>Game will end in: <span id="countdown"></span></div>
+            <div> Game will end in: <span id="countdowntimer"> 120 </span> Seconds</div>
+
+            <script type="text/javascript">
+                var remaining = 120;
+                var timer = setInterval(function(){
+                remaining--;
+                document.getElementById("countdowntimer").textContent = remaining;
+                if(remaining <= 0)
+                    clearInterval(timer);
+                },1000);
+            </script>
+
             <div>Score: <span id="score"></span></div>
             <div>Grab all shapes, but watch out for the reds shapes!<span ></span></div>
-          </div> 
-             
+
+        
+           
+
+
+        </div> 
+            
+        
 
         <canvas id = "gl-canvas" height = "700" width = "700"></canvas>
+
 
         
 
