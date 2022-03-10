@@ -304,6 +304,7 @@ function moveSquareKeys( event ){
         direction_ant_2 = "right";
 
         gameOver = false;
+        winGame = false;
 
         init();
     }
