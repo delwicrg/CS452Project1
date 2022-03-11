@@ -577,7 +577,7 @@ function render(){
     else if((remaining == 0 && score !=5) || (gameOver == true && score != 5)){
         remaining = 1; 
         divScore.innerHTML = score + " YOU LOST";
-        div.style.color = "red";
+        div.style.color = "crimson";
         gameOver = true;
     }
     else{
@@ -867,7 +867,7 @@ if(touched_fruit5 != true){
 
         if(touched_rect == true && remaining > timeOutEnd){
             divScore.innerHTML = score + " YOU ARE IN TIMEOUT ";
-            div.style.color = "purple";
+            div.style.color = "orange";            
         }
 
         win();
