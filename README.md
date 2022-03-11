@@ -8,9 +8,9 @@ Shape Mania
 
 ## Game Control
  You only have the power to control the movement of the hexagon, the biggest object on the canvas. The keys to control it are the following:
-    a   : move left
-    d   : move right
-    w   : move up
-    s   : move down
-    ** You must press the corresponding key each time movement is desired, and moving beyond the canvas is not allowed **
-    r   : to restart the game from the beginning
+    a   : move left  
+    d   : move right  
+    w   : move up  
+    s   : move down   
+    ** You must press the corresponding key each time movement is desired, and moving beyond the canvas is not allowed **        
+    r   : to restart the game from the beginning    
