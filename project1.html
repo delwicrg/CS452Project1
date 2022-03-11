@@ -90,69 +90,30 @@
     
             <script type ="x-shader/x-fragment" id= "fragment-shader-spider">
                 void main(){
-                    gl_FragColor = vec4(0,0,0,1);
+                    gl_FragColor = vec4(0.933, 0.365, 0.434, 1.0); 
                 }
             </script>
 
             <script type="x-shader/x-fragment" id="fragment-shader-fruit">
                 void main() {
-                    gl_FragColor = vec4(1, 0.7, 0.7, 1.0 );
+                    gl_FragColor = vec4(0.933, 0.686, 0.38, 1.0);
                 }        
             </script>
-            <script type="x-shader/x-fragment" id="fragment-shader-fruit2">
-                void main() {
-                    gl_FragColor = vec4(1, 0.7, 0.7, 1.0 );
-                }        
-            </script>
-            <script type="x-shader/x-fragment" id="fragment-shader-fruit3">
-                void main() {
-                    gl_FragColor = vec4(1, 0.7, 0.7, 1.0 );
-                }        
-            </script>
-            <script type="x-shader/x-fragment" id="fragment-shader-fruit4">
-                void main() {
-                    gl_FragColor = vec4(1, 0.7, 0.7, 1.0 );
-                }        
-            </script>
-            <script type="x-shader/x-fragment" id="fragment-shader-fruit5">
-                void main() {
-                    gl_FragColor = vec4(1, 0.7, 0.7, 1.0 );
-                }        
-            </script>
-
+            
             <script type="x-shader/x-fragment" id="fragment-shader-ant">
                 void main() {
-                    gl_FragColor = vec4(1, 0, 0, 1.0 );
+                    gl_FragColor = vec4(0.808, 0.286, 0.576, 1.0);
+                }        
+            </script>
+            <script type="x-shader/x-fragment" id="fragment-shader-triangle">
+                void main() {
+                    gl_FragColor = vec4(0.984, 0.565, 0.384, 1.0 ); 
                 }        
             </script>
 
-            <script type="x-shader/x-fragment" id="fragment-shader-ant-1">
+            <script type="x-shader/x-fragment" id="fragment-shader-rectangle">
                 void main() {
-                    gl_FragColor = vec4(1, 0, 0, 1.0 );
-                }        
-            </script>
-
-            <script type="x-shader/x-fragment" id="fragment-shader-ant-2">
-                void main() {
-                    gl_FragColor = vec4(1, 0, 0, 1.0 );
-                }        
-            </script>
-
-            <script type="x-shader/x-fragment" id="fragment-shader-triangle-1">
-                void main() {
-                    gl_FragColor = vec4(1, 0, 0, 1.0 );
-                }        
-            </script>
-
-            <script type="x-shader/x-fragment" id="fragment-shader-triangle-2">
-                void main() {
-                    gl_FragColor = vec4(1, 0, 0, 1.0 );
-                }        
-            </script>
-
-            <script type="x-shader/x-fragment" id="fragment-shader-rect">
-                void main() {
-                    gl_FragColor = vec4(1, 0, 0, 1.0 );
+                    gl_FragColor = vec4(0.95, 0.3, 0.5, 1.0 );
                 }        
             </script>
             
@@ -161,10 +122,10 @@
     <body onload = "init()" onkeydown = "moveSquareKeys(event)">
 
         <div id="overlay">
-            <div> Game will end in: <span id="countdowntimer"> 60 </span> Seconds</div>
+            <div> Game will end in: <span id="countdowntimer"> 30 </span> Seconds</div>
 
             <script type="text/javascript">
-                var remaining = 60;
+                var remaining = 30;
                 var timer = setInterval(function(){
                 remaining--;
                 document.getElementById("countdowntimer").textContent = remaining;
@@ -173,23 +134,12 @@
                 },1000);
             </script>
 
-            <div>Score: <span id="score"></span></div>
-            <div>Grab all shapes, but watch out for the reds shapes!<span ></span></div>
-
-        
-           
-
-
+            <div>Score: <span id="score"></span></div><br>
+            <div>Collect all the circles to win!<span ></span></div>
+            <div>Triangles increase your speed, but squares pause your movement!<span ></span></div>
+            <div>Watch out for moving shapes!<span ></span></div>
         </div> 
             
-        
-
-        <canvas id = "gl-canvas" height = "700" width = "700"></canvas>
-
-
-        
-
+        <canvas id = "gl-canvas" height = "500" width = "500"></canvas>
     </body>
-    
-
 </html>

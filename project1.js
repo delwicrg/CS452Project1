@@ -4,15 +4,18 @@
     
 var gl;
 var myShaderSpider; 
-var myShaderFruit; var myShaderFruit2; var myShaderFruit3; var myShaderFruit4; var myShaderFruit5; 
-var myShaderAnt; var myShaderAnt_1; var myShaderAnt_2;
+var myShaderFruit; 
+var myShaderAnt; 
+var myShaderRectangle;
+var myShaderTriangle;
+
 var mouseCoordinatesUniformSpider; var mouseCoordinatesUniformAnt; var mouseCoordinatesUniformAnt_1; var mouseCoordinatesUniformAnt_2;
 var mouseCoordinatesUniformTr_2; var mouseCoordinatesUniformTr_1;
 var arrayOfPointsSpider = []; 
 var arrayOfPointsFruit = []; var arrayOfPointsFruit2 = []; var arrayOfPointsFruit3 = []; var arrayOfPointsFruit4 = []; var arrayOfPointsFruit5 = []; 
 var arrayOfPointsAnt = []; var arrayOfPointsAnt_1 = []; var arrayOfPointsAnt_2 = [];
 var bufferIdSpider; 
-var myShaderTr_1; var myShaderTr_2; var myShaderTr;
+
 var bufferIdTr_1; var bufferIdTr_2;
 var bufferIdFruit; var bufferIdFruit2; var bufferIdFruit3; var bufferIdFruit4; var bufferIdFruit5; 
 var bufferIdAnt; var bufferIdAnt_1; var bufferIdAnt_2;
@@ -29,7 +32,8 @@ var tx_fruit2; var ty_fruit2; var touched_fruit2;
 var tx_fruit3; var ty_fruit3; var touched_fruit3;
 var tx_fruit4; var ty_fruit4; var touched_fruit4;
 var tx_fruit5; var ty_fruit5; var touched_fruit5;
-var myShaderRect; var bufferIdRect; var ty_rect; var tx_rect; var touch_rect; var arrayOfPoints_rect = []; var mouseCoordinatesUniformRect;
+var bufferIdRect; 
+var ty_rect; var tx_rect; var touched_rect; var arrayOfPoints_rect = []; var mouseCoordinatesUniformRect;
 var timeOutStart; var timeOutEnd;
 
 
@@ -60,84 +64,39 @@ function init(){
     gl = WebGLUtils.setupWebGL(canvas);
     if (!gl) { alert( "WebGL is not available" ); }
 
-    gl.viewport( 0, 0, 700, 700 );   // set up viewport
-    gl.clearColor( 1.0, 1.0, 0.5, 1.0); // set up background color
+    gl.viewport( 0, 0, 500, 500 );   // set up viewport
+    gl.clearColor( 0.416, 0.051, 0.514, 1,0) // set up background color
     
     score = 0;
     winGame = false;
 
     thetaSpider = 0.0;
-    thetaFruit = 0.0;
-    thetaFruit2 = 0.0;
-    thetaFruit3 = 0.0;
-    thetaFruit4 = 0.0;
-    thetaFruit5 = 0.0;
-    thetaAnt = 0.0;
-    thetaAnt_1 = 0.0;
-    thetaAnt_2 = 0.0;
+    thetaFruit = 0.0; thetaFruit2 = 0.0; thetaFruit3 = 0.0; thetaFruit4 = 0.0; thetaFruit5 = 0.0;
+    thetaAnt = 0.0; thetaAnt_1 = 0.0; thetaAnt_2 = 0.0;
 
-    tx_fruit1 = 0.5;
-    ty_fruit1 = 0.8;
-    touched_fruit1 = false;
+    tx_fruit1 = 0.5; ty_fruit1 = 0.8; touched_fruit1 = false;
+    tx_fruit2 = -0.4; ty_fruit2 = -0.4; touched_fruit2 = false;
+    tx_fruit3 = 0.8; ty_fruit3 = -0.8; touched_fruit3 = false;
+    tx_fruit4 = -0.7; ty_fruit4 = 0.6; touched_fruit4 = false;
+    tx_fruit5 = -0.9; ty_fruit5 = -0.9; touched_fruit5 = false;
 
-    tx_fruit2 = -0.4;
-    ty_fruit2 = -0.4;
-    touched_fruit2 = false;
+    tx_ant = 0.5; ty_ant = 0.5; direction_ant = "up";
+    tx_ant_1 = .75; ty_ant_1 = .75; direction_ant_1 = "down";
+    tx_ant_2 = -0.5; ty_ant_2 = -0.5; direction_ant_2 = "right";
 
-    tx_fruit3 = 0.8;
-    ty_fruit3 = -0.2;
-    touched_fruit3 = false;
+    tx_Tr_1 = .6; ty_Tr_1 = .4; touched_Tr_1 = false;
+    tx_Tr_2 = -.6; ty_Tr_2 = -.6; touched_Tr_2 = false;
 
-    tx_fruit4 = -0.7;
-    ty_fruit4 = 0.6;
-    touched_fruit4 = false;
-
-    tx_fruit5 = -0.9;
-    ty_fruit5 = -0.9;
-    touched_fruit5 = false;
-
-    tx_ant = 0.5;
-    ty_ant = 0.5;
-    direction_ant = "up";
-
-
-    tx_ant_1 = .75;
-    ty_ant_1 = .75;
-    direction_ant_1 = "up";
-
-    tx_ant_2 = -0.5;
-    ty_ant_2 = -0.5;
-    direction_ant_2 = "right";
-
-
-    tx_Tr_1 = .6;
-    ty_Tr_1 = .4;
-    touched_Tr_1 = false;
-
-    tx_Tr_2 = -.6;
-    ty_Tr_2 = -.6;
-    touched_Tr_2 = false;
-
-    tx_rect = -.1;
-    ty_rect = .5;
-    touch_rect = false;
+    tx_rect = -.1; ty_rect = .5; touched_rect = false;
 
  
 
     //INITALIZE PROGRAMS
-    myShaderSpider   = initShaders( gl,"vertex-shader", "fragment-shader-spider" );
-    myShaderTr     = initShaders( gl,"vertex-shader", "fragment-shader-triangle-1" );
-    myShaderTr_1     = initShaders( gl,"vertex-shader", "fragment-shader-triangle-1" );
-    myShaderTr_2     = initShaders( gl,"vertex-shader", "fragment-shader-triangle-2" );
-    myShaderFruit    = initShaders( gl,"vertex-shader-fruit", "fragment-shader-fruit" );
-    myShaderFruit2   = initShaders( gl,"vertex-shader-fruit", "fragment-shader-fruit2" );
-    myShaderFruit3   = initShaders( gl,"vertex-shader-fruit", "fragment-shader-fruit3" );
-    myShaderFruit4   = initShaders( gl,"vertex-shader-fruit", "fragment-shader-fruit4" );
-    myShaderFruit5   = initShaders( gl,"vertex-shader-fruit", "fragment-shader-fruit5" );
-    myShaderAnt      = initShaders( gl,"vertex-shader-ant", "fragment-shader-ant" );
-    myShaderAnt_1    = initShaders( gl,"vertex-shader-ant", "fragment-shader-ant-1" );
-    myShaderAnt_2    = initShaders( gl,"vertex-shader-ant", "fragment-shader-ant-2" );
-    myShaderRect     = initShaders( gl,"vertex-shader-ant", "fragment-shader-rect" );
+    myShaderSpider    = initShaders( gl,"vertex-shader", "fragment-shader-spider" );
+    myShaderTriangle  = initShaders( gl,"vertex-shader", "fragment-shader-triangle" );
+    myShaderFruit     = initShaders( gl,"vertex-shader-fruit", "fragment-shader-fruit" );
+    myShaderAnt       = initShaders( gl,"vertex-shader-ant", "fragment-shader-ant" );
+    myShaderRectangle = initShaders( gl,"vertex-shader-ant", "fragment-shader-rectangle" );
 
     //INITALIZE SHAPES AND SET UP BUFFER (INSIDE FUNCTION)
     gl.useProgram(myShaderSpider);
@@ -212,8 +171,6 @@ function drawSpeedChangers(){
 
 
 }
-
-
 
 function drawFruits(){
     //Initalize Circle
@@ -341,15 +298,12 @@ function drawAnts(){
 
 }
 
-
-
-
 function moveSquareKeys( event ){
     gl.useProgram(myShaderSpider);
     var theKeyCode = event.keyCode;
    
-    console.log("TX: " + tx + " " + "TY: " + ty);
-    if(!(touch_rect == true && remaining > timeOutEnd)){
+    //console.log("TX: " + tx + " " + "TY: " + ty);
+    if(!(touched_rect == true && remaining > timeOutEnd)){
         if(theKeyCode == 65){           // a, move left
             if(tx - offset < 1 && tx - offset > -1){tx -= offset;}
             else{tx = -1;}
@@ -443,7 +397,7 @@ function powerChangeProximity(){
                     console.log("POINT\n");
                     touched_Tr_1 = true;
                     
-                    offset += INCREMENT
+                    offset += INCREMENT;
                 }      
             }
         }
@@ -463,7 +417,7 @@ function powerChangeProximity(){
                     console.log("POINT\n");
                     touched_Tr_2 = true;
 
-                    offset += INCREMENT
+                    offset += INCREMENT;
 
                     
                 }      
@@ -474,7 +428,7 @@ function powerChangeProximity(){
 
     //-------------------------------------rectangle------------------------------------------
 
-    if(touch_rect != true){
+    if(touched_rect != true){
         var tx_rect_arr = [tx_rect, (tx_rect - .05),(tx_rect + .05)];
         var ty_rect_arr = [ty_rect, (ty_rect - .05),(ty_rect + .05)];
         var x = 0;
@@ -484,7 +438,7 @@ function powerChangeProximity(){
             {
                 if( (ty_rect_arr[x] > (ty-.1)) && (ty_rect_arr[x]< (ty+.1))) {
                     console.log("POINT\n");
-                    touch_rect = true;   
+                    touched_rect = true;   
                     timeOutStart = remaining;
                     timeOutEnd = timeOutStart - 5; 
                 }      
@@ -492,8 +446,6 @@ function powerChangeProximity(){
         }
     }
 }
-
-
 
 function isCloseToFruit(){
     //-------------------------------------fruit 1-------------------------------------------
@@ -601,17 +553,11 @@ function calculateScore(){
     if(touched_fruit5 == true){ score += 1;}
 }
 
-
 function win(){
     if(score == 5){
         winGame = true;
         gameOver = true;
     }
-    //should have a popup that says "You win!" or something
-}
-
-function countdown(){
-    //not implemented but shouldnt be too bad
 }
 
 
@@ -624,7 +570,7 @@ function render(){
         remaining = 1;
 
         divScore.innerHTML = score + " YOU WIN!";
-        div.style.color = "green";
+        div.style.color = "#05e305";
         gameOver = true;
     }
 
@@ -638,15 +584,10 @@ function render(){
         divScore.innerHTML = score;
         div.style.color = "black";
     }
-    
-
-    //uncomment when ready to implement countdown
-    //document.getElementById("countdown").innerHTML = timer; 
-    //countdown();
-    
 
     gl.clear(gl.COLOR_BUFFER_BIT);
 
+    /*----------------------------------Spider------------------------------------------*/
     //using shader program for the spider
     gl.useProgram(myShaderSpider);
 
@@ -784,14 +725,13 @@ if(touched_fruit5 != true){
     //-------------------------------------------ant 1----------------------------------------------
 
     //using shader program for the ant_1
-    gl.useProgram(myShaderAnt_1);
+    gl.useProgram(myShaderAnt);
 
     //update the animation angle for the ant_1
     thetaAnt_1 = thetaAnt_1 + 0.1;
-    var thetaLocAnt = gl.getUniformLocation(myShaderAnt_1, "theta");
+    var thetaLocAnt = gl.getUniformLocation(myShaderAnt, "theta");
     gl.uniform1f(thetaLocAnt, thetaAnt_1);
 
-    //console.log("direction: " + direction_ant + " ty_ant: " + ty_ant);
     if(direction_ant_1 == "down"){
         ty_ant_1 -= 0.01;
     } else if (direction_ant_1 == "up"){
@@ -800,17 +740,17 @@ if(touched_fruit5 != true){
 
     if(ty_ant_1 >= 1){
        direction_ant_1 = "down";
-    }else if(ty_ant <= -1){
+    }else if(ty_ant <= -0.25){
         direction_ant_1 = "up";
     } 
 
-    mouseCoordinatesUniformAnt_1 = gl.getUniformLocation(myShaderAnt_1, "mouseCoordinates");
+    mouseCoordinatesUniformAnt_1 = gl.getUniformLocation(myShaderAnt, "mouseCoordinates");
     gl.uniform2f(mouseCoordinatesUniformAnt_1, tx_ant_1, ty_ant_1);
 
     gl.bindBuffer(gl.ARRAY_BUFFER, bufferIdAnt_1);
 
     //set up attributes for the fruit based on the current buffer
-    var myPositionAnt = gl.getAttribLocation( myShaderAnt_1, "myPosition" );
+    var myPositionAnt = gl.getAttribLocation( myShaderAnt, "myPosition" );
     gl.vertexAttribPointer( myPositionAnt, 2, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray( myPositionAnt);
 
@@ -821,11 +761,11 @@ if(touched_fruit5 != true){
  //------------------------------ant 2 (this one will move left to right) ------------------------------------
 
     //using shader program for the ant_1
-    gl.useProgram(myShaderAnt_2);
+    gl.useProgram(myShaderAnt);
 
     //update the animation angle for the ant_1
     thetaAnt_2 = thetaAnt_2 + 0.1;
-    var thetaLocAnt = gl.getUniformLocation(myShaderAnt_2, "theta");
+    var thetaLocAnt = gl.getUniformLocation(myShaderAnt, "theta");
     gl.uniform1f(thetaLocAnt, thetaAnt_2);
 
     if(direction_ant_2 == "left"){
@@ -840,13 +780,13 @@ if(touched_fruit5 != true){
         direction_ant_2 = "right";
     } 
 
-    mouseCoordinatesUniformAnt_2 = gl.getUniformLocation(myShaderAnt_2, "mouseCoordinates");
+    mouseCoordinatesUniformAnt_2 = gl.getUniformLocation(myShaderAnt, "mouseCoordinates");
     gl.uniform2f(mouseCoordinatesUniformAnt_2, tx_ant_2, ty_ant_2);
 
     gl.bindBuffer(gl.ARRAY_BUFFER, bufferIdAnt_2);
 
     //set up attributes for the fruit based on the current buffer
-    var myPositionAnt = gl.getAttribLocation( myShaderAnt_2, "myPosition" );
+    var myPositionAnt = gl.getAttribLocation( myShaderAnt, "myPosition" );
     gl.vertexAttribPointer( myPositionAnt, 2, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray( myPositionAnt);
 
@@ -854,59 +794,60 @@ if(touched_fruit5 != true){
     gl.drawArrays(gl.TRIANGLE_FAN, 0, 8);  
 
 
-/*--------------------------------Triangle 1-----------------------------------------------------*/
-if(touched_Tr_1 != true){
-    //using shader program for the fruit
-    gl.useProgram(myShaderTr_1);
-
-    mouseCoordinatesUniformTr_1 = gl.getUniformLocation(myShaderTr_1, "mouseCoordinates");
-    gl.uniform2f(mouseCoordinatesUniformTr_1, tx_Tr_1, ty_Tr_1);
-
-    gl.bindBuffer(gl.ARRAY_BUFFER, bufferIdTr_1);
-
-    //set up attributes for the triangle based on the current buffer
-    var myPositionTr = gl.getAttribLocation( myShaderTr_1, "myPosition" );
-    gl.vertexAttribPointer( myPositionTr, 2, gl.FLOAT, false, 0, 0);
-    gl.enableVertexAttribArray( myPositionTr);
-
-    //draw the triangle
-    gl.drawArrays(gl.TRIANGLE_FAN, 0, 3);
-}
-
-
-/*--------------------------------Triangle 2-----------------------------------------------------*/
-if(touched_Tr_2 != true){
-    //using shader program for the fruit
-    gl.useProgram(myShaderTr_2);
-
-
-    mouseCoordinatesUniformTr_2 = gl.getUniformLocation(myShaderTr_2, "mouseCoordinates");
-    gl.uniform2f(mouseCoordinatesUniformTr_2, tx_Tr_2, ty_Tr_2);
-
-    gl.bindBuffer(gl.ARRAY_BUFFER, bufferIdTr_2);
-
-    //set up attributes for the triangle based on the current buffer
-    var myPositionTr = gl.getAttribLocation( myShaderTr_2, "myPosition" );
-    gl.vertexAttribPointer( myPositionTr, 2, gl.FLOAT, false, 0, 0);
-    gl.enableVertexAttribArray( myPositionTr);
-
-    //draw the triangle
-    gl.drawArrays(gl.TRIANGLE_FAN, 0, 3);
-
-
-
-    /*--------------------------------Rectangle-----------------------------------------------------*/
-        if(touch_rect != true){
+    /*--------------------------------Triangle 1-----------------------------------------------------*/
+    if(touched_Tr_1 != true){
         //using shader program for the fruit
-        gl.useProgram(myShaderRect);
+        gl.useProgram(myShaderTriangle);
 
-        mouseCoordinatesUniformRect = gl.getUniformLocation(myShaderRect, "mouseCoordinates");
+        mouseCoordinatesUniformTr_1 = gl.getUniformLocation(myShaderTriangle, "mouseCoordinates");
+        gl.uniform2f(mouseCoordinatesUniformTr_1, tx_Tr_1, ty_Tr_1);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, bufferIdTr_1);
+
+        //set up attributes for the triangle based on the current buffer
+        var myPositionTr = gl.getAttribLocation( myShaderTriangle, "myPosition" );
+        gl.vertexAttribPointer( myPositionTr, 2, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray( myPositionTr);
+
+        //draw the triangle
+        gl.drawArrays(gl.TRIANGLE_FAN, 0, 3);
+    }
+
+
+    /*--------------------------------Triangle 2-----------------------------------------------------*/
+    if(touched_Tr_2 != true){
+        //using shader program for the fruit
+        gl.useProgram(myShaderTriangle);
+
+
+        mouseCoordinatesUniformTr_2 = gl.getUniformLocation(myShaderTriangle, "mouseCoordinates");
+        gl.uniform2f(mouseCoordinatesUniformTr_2, tx_Tr_2, ty_Tr_2);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, bufferIdTr_2);
+
+        //set up attributes for the triangle based on the current buffer
+        var myPositionTr = gl.getAttribLocation( myShaderTriangle, "myPosition" );
+        gl.vertexAttribPointer( myPositionTr, 2, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray( myPositionTr);
+
+        //draw the triangle
+        gl.drawArrays(gl.TRIANGLE_FAN, 0, 3);
+
+    }
+
+    /*--------------------------------Rectangle-----------------------------------------------------*/  
+    if(touched_rect != true){
+
+        //using shader program for the fruit
+        gl.useProgram(myShaderRectangle);
+
+        mouseCoordinatesUniformRect = gl.getUniformLocation(myShaderRectangle, "mouseCoordinates");
         gl.uniform2f(mouseCoordinatesUniformRect, tx_rect, ty_rect);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, bufferIdRect);
 
         //set up attributes for the rectangle based on the current buffer
-        var myPositionRect = gl.getAttribLocation( myShaderRect, "myPosition" );
+        var myPositionRect = gl.getAttribLocation( myShaderRectangle, "myPosition" );
         gl.vertexAttribPointer( myPositionRect, 2, gl.FLOAT, false, 0, 0);
         gl.enableVertexAttribArray( myPositionRect);
 
@@ -914,7 +855,7 @@ if(touched_Tr_2 != true){
         gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
     }
 
-}
+
 
     
     if(gameOver == false){
@@ -924,7 +865,7 @@ if(touched_Tr_2 != true){
         isCloseToFruit();
         powerChangeProximity();
 
-        if(touch_rect == true && remaining > timeOutEnd){
+        if(touched_rect == true && remaining > timeOutEnd){
             divScore.innerHTML = score + " YOU ARE IN TIMEOUT ";
             div.style.color = "purple";
         }
