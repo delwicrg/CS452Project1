@@ -341,22 +341,25 @@ function drawAnts(){
 
 }
 
+
+
+
 function moveSquareKeys( event ){
     gl.useProgram(myShaderSpider);
     var theKeyCode = event.keyCode;
    
+    console.log("TX: " + tx + " " + "TY: " + ty);
     if(!(touch_rect == true && remaining > timeOutEnd)){
         if(theKeyCode == 65){           // a, move left
-            tx -= offset;
+            if(tx - offset < 1 && tx - offset > -1){tx -= offset;}
         } 
         else if(theKeyCode == 68 ){     // d, move right
-            tx += offset;
+            if(tx + offset < 1 && tx + offset > -1){tx += offset;}
         } 
         else if(theKeyCode == 87 ){     // w, move up
-            ty += offset;
-        }
+            if(ty + offset < 1 && ty + offset > -1){ty += offset;}        }
         else if(theKeyCode == 83 ){     // s, move down
-            ty -= offset;
+            if(ty - offset < 1 && ty - offset > -1){ty -= offset;}        
         }
         
         if(theKeyCode == 65 || theKeyCode == 68  || theKeyCode == 87  || theKeyCode == 83){
@@ -370,11 +373,7 @@ function moveSquareKeys( event ){
 
 }
 
-
-
-
 }
-
 
 function isCloseToAnt(){
     //-------------------------------------ant 1-------------------------------------------
@@ -891,7 +890,7 @@ if(touched_Tr_2 != true){
 
 
 
-    /*--------------------------------Triangle 1-----------------------------------------------------*/
+    /*--------------------------------Rectangle-----------------------------------------------------*/
         if(touch_rect != true){
         //using shader program for the fruit
         gl.useProgram(myShaderRect);
