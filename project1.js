@@ -29,6 +29,8 @@ var tx_fruit2; var ty_fruit2; var touched_fruit2;
 var tx_fruit3; var ty_fruit3; var touched_fruit3;
 var tx_fruit4; var ty_fruit4; var touched_fruit4;
 var tx_fruit5; var ty_fruit5; var touched_fruit5;
+var myShaderRect; var bufferIdRect; var ty_rect; var tx_rect; var touch_rect; var arrayOfPoints_rect = []; var mouseCoordinatesUniformRect;
+var timeOutStart; var timeOutEnd;
 
 
 var tx_Tr_1; var ty_Tr_1; var touched_Tr_1;
@@ -116,6 +118,11 @@ function init(){
     ty_Tr_2 = -.6;
     touched_Tr_2 = false;
 
+    tx_rect = -.1;
+    ty_rect = .5;
+    touch_rect = false;
+
+ 
 
     //INITALIZE PROGRAMS
     myShaderSpider   = initShaders( gl,"vertex-shader", "fragment-shader-spider" );
@@ -130,6 +137,7 @@ function init(){
     myShaderAnt      = initShaders( gl,"vertex-shader-ant", "fragment-shader-ant" );
     myShaderAnt_1    = initShaders( gl,"vertex-shader-ant", "fragment-shader-ant-1" );
     myShaderAnt_2    = initShaders( gl,"vertex-shader-ant", "fragment-shader-ant-2" );
+    myShaderRect     = initShaders( gl,"vertex-shader-ant", "fragment-shader-rect" );
 
     //INITALIZE SHAPES AND SET UP BUFFER (INSIDE FUNCTION)
     gl.useProgram(myShaderSpider);
@@ -174,7 +182,7 @@ function drawSpeedChangers(){
 
     arrayOfPointsTr_1 = [p0,p1,p2];
 
-    //set up buffer for the ant
+    //set up buffer for the triangle
     bufferIdTr_1 = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, bufferIdTr_1);
     gl.bufferData(gl.ARRAY_BUFFER, flatten(arrayOfPointsTr_1), gl.STATIC_DRAW);
@@ -182,10 +190,27 @@ function drawSpeedChangers(){
     //-------------------------------------triangle 2-------------------------------------------
     arrayOfPointsTr_2 = [p0,p1,p2];
 
-    //set up buffer for the ant
+    //set up buffer for the triangle
     bufferIdTr_2 = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, bufferIdTr_2);
     gl.bufferData(gl.ARRAY_BUFFER, flatten(arrayOfPointsTr_2), gl.STATIC_DRAW);
+
+    //-------------------------------------rectangle------------------------------------------
+    var p1 = vec2(0, 0); 
+    var p2 = vec2(.1, 0); 
+    var p3 = vec2(.1, .1); 
+    var p4 = vec2(0, .1); 
+
+
+    arrayOfPoints_rect = [p1,p2,p3,p4];
+
+    //set up buffer for the rectangle
+    bufferIdRect = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, bufferIdRect);
+    gl.bufferData(gl.ARRAY_BUFFER, flatten(arrayOfPoints_rect), gl.STATIC_DRAW);
+
+
+
 }
 
 
@@ -320,27 +345,34 @@ function moveSquareKeys( event ){
     gl.useProgram(myShaderSpider);
     var theKeyCode = event.keyCode;
    
-    if(theKeyCode == 65){           // a, move left
-        tx -= offset;
-    } 
-    else if(theKeyCode == 68 ){     // d, move right
-        tx += offset;
-    } 
-    else if(theKeyCode == 87 ){     // w, move up
-        ty += offset;
+    if(!(touch_rect == true && remaining > timeOutEnd)){
+        if(theKeyCode == 65){           // a, move left
+            tx -= offset;
+        } 
+        else if(theKeyCode == 68 ){     // d, move right
+            tx += offset;
+        } 
+        else if(theKeyCode == 87 ){     // w, move up
+            ty += offset;
+        }
+        else if(theKeyCode == 83 ){     // s, move down
+            ty -= offset;
+        }
+        
+        if(theKeyCode == 65 || theKeyCode == 68  || theKeyCode == 87  || theKeyCode == 83){
+            var mouseCoordinatesUniform = gl.getUniformLocation(myShaderSpider, "mouseCoordinates");
+            gl.uniform2f(mouseCoordinatesUniform,tx,ty);
+        }
     }
-    else if(theKeyCode == 83 ){     // s, move down
-        ty -= offset;
-    }
-    else if(theKeyCode == 82 ){     // to restart the game
+
+     if(theKeyCode == 82 ){     // to restart the game
         window.location.reload();
 
-    }
-    
-    if(theKeyCode == 65 || theKeyCode == 68  || theKeyCode == 87  || theKeyCode == 83){
-        var mouseCoordinatesUniform = gl.getUniformLocation(myShaderSpider, "mouseCoordinates");
-        gl.uniform2f(mouseCoordinatesUniform,tx,ty);
-    }
+}
+
+
+
+
 }
 
 
@@ -430,6 +462,27 @@ function powerChangeProximity(){
                     offset += INCREMENT
 
                     
+                }      
+            }
+        }
+    }
+
+
+    //-------------------------------------rectangle------------------------------------------
+
+    if(touch_rect != true){
+        var tx_rect_arr = [tx_rect, (tx_rect - .05),(tx_rect + .05)];
+        var ty_rect_arr = [ty_rect, (ty_rect - .05),(ty_rect + .05)];
+        var x = 0;
+
+        for(x = 0; x < 3; x++){
+            if((tx_rect_arr[x] > (tx-.1)) && (tx_rect_arr[x]< (tx+.1))) 
+            {
+                if( (ty_rect_arr[x] > (ty-.1)) && (ty_rect_arr[x]< (ty+.1))) {
+                    console.log("POINT\n");
+                    touch_rect = true;   
+                    timeOutStart = remaining;
+                    timeOutEnd = timeOutStart - 5; 
                 }      
             }
         }
@@ -835,9 +888,29 @@ if(touched_Tr_2 != true){
 
     //draw the triangle
     gl.drawArrays(gl.TRIANGLE_FAN, 0, 3);
+
+
+
+    /*--------------------------------Triangle 1-----------------------------------------------------*/
+        if(touch_rect != true){
+        //using shader program for the fruit
+        gl.useProgram(myShaderRect);
+
+        mouseCoordinatesUniformRect = gl.getUniformLocation(myShaderRect, "mouseCoordinates");
+        gl.uniform2f(mouseCoordinatesUniformRect, tx_rect, ty_rect);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, bufferIdRect);
+
+        //set up attributes for the rectangle based on the current buffer
+        var myPositionRect = gl.getAttribLocation( myShaderRect, "myPosition" );
+        gl.vertexAttribPointer( myPositionRect, 2, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray( myPositionRect);
+
+        //draw the rectangle
+        gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
+    }
+
 }
-
-
 
     
     if(gameOver == false){
@@ -846,6 +919,12 @@ if(touched_Tr_2 != true){
         isCloseToAnt();
         isCloseToFruit();
         powerChangeProximity();
+
+        if(touch_rect == true && remaining > timeOutEnd){
+            divScore.innerHTML = score + " YOU ARE IN TIMEOUT ";
+            div.style.color = "purple";
+        }
+
         win();
     }
 }

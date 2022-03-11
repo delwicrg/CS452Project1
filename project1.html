@@ -150,16 +150,21 @@
                 }        
             </script>
 
+            <script type="x-shader/x-fragment" id="fragment-shader-rect">
+                void main() {
+                    gl_FragColor = vec4(1, 0, 0, 1.0 );
+                }        
+            </script>
             
     </head>
     <h1>SHAPE MANIA</h1>
     <body onload = "init()" onkeydown = "moveSquareKeys(event)">
 
         <div id="overlay">
-            <div> Game will end in: <span id="countdowntimer"> 120 </span> Seconds</div>
+            <div> Game will end in: <span id="countdowntimer"> 60 </span> Seconds</div>
 
             <script type="text/javascript">
-                var remaining = 120;
+                var remaining = 60;
                 var timer = setInterval(function(){
                 remaining--;
                 document.getElementById("countdowntimer").textContent = remaining;
