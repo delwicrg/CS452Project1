@@ -858,7 +858,8 @@ if(touched_fruit5 != true){
         powerChangeProximity();
 
         if(touched_rect == true && remaining > timeOutEnd){
-            divScore.innerHTML = score + " YOU ARE IN TIMEOUT ";
+            var time_left = remaining - timeOutEnd; 
+            divScore.innerHTML = score + " YOU ARE IN TIMEOUT - " + time_left + " SECONDS LEFT";
             div.style.color = "orange";            
         }
 
