@@ -304,20 +304,20 @@ function moveSquareKeys( event ){
    
     if(!(touched_rect == true && remaining > timeOutEnd)){
         if(theKeyCode == 65){           // a, move left
-            if(tx - offset < 1 && tx - offset > -1){tx -= offset;}
-            else{tx = -1;}
+            if(tx - offset < .9 && tx - offset > -.9){tx -= offset;}
+            else{tx = -.9;}
         } 
         else if(theKeyCode == 68 ){     // d, move right
-            if(tx + offset < 1 && tx + offset > -1){tx += offset;}
-            else{tx = 1;}
+            if(tx + offset < .9 && tx + offset > -.9){tx += offset;}
+            else{tx = .9;}
         } 
         else if(theKeyCode == 87 ){     // w, move up
-            if(ty + offset < 1 && ty + offset > -1){ty += offset;}  
-            else{ty = 1;}     
+            if(ty + offset < .9 && ty + offset > -.9){ty += offset;}  
+            else{ty = .9;}     
          }
         else if(theKeyCode == 83 ){     // s, move down
-            if(ty - offset < 1 && ty - offset > -1){ty -= offset;} 
-            else{ty = -1;}       
+            if(ty - offset < .9 && ty - offset > -.9){ty -= offset;} 
+            else{ty = -.9;}       
         }
         
         if(theKeyCode == 65 || theKeyCode == 68  || theKeyCode == 87  || theKeyCode == 83){
