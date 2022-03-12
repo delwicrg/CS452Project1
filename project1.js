@@ -302,7 +302,6 @@ function moveSquareKeys( event ){
     gl.useProgram(myShaderSpider);
     var theKeyCode = event.keyCode;
    
-    //console.log("TX: " + tx + " " + "TY: " + ty);
     if(!(touched_rect == true && remaining > timeOutEnd)){
         if(theKeyCode == 65){           // a, move left
             if(tx - offset < 1 && tx - offset > -1){tx -= offset;}
@@ -418,8 +417,6 @@ function powerChangeProximity(){
                     touched_Tr_2 = true;
 
                     offset += INCREMENT;
-
-                    
                 }      
             }
         }
@@ -460,7 +457,6 @@ function isCloseToFruit(){
                 if( (ty_fruit1_arr[x] > (ty-.1)) && (ty_fruit1_arr[x]< (ty+.1))) {
                     console.log("POINT\n");
                     touched_fruit1 = true;
-                    //score = score + 1;
                     document.getElementById("score").innerHTML = score;
                 }      
             }
@@ -479,7 +475,6 @@ function isCloseToFruit(){
                 if( (ty_fruit2_arr[x] > (ty-.1)) && (ty_fruit2_arr[x]< (ty+.1))) {
                     console.log("POINT\n");
                     touched_fruit2 = true;
-                    //score = score + 1;
                     document.getElementById("score").innerHTML = score;
                 }      
             }
@@ -498,7 +493,6 @@ function isCloseToFruit(){
                 if( (ty_fruit3_arr[x] > (ty-.1)) && (ty_fruit3_arr[x]< (ty+.1))) {
                     console.log("POINT\n");
                     touched_fruit3 = true;
-                    //score = score + 1;
                     document.getElementById("score").innerHTML = score;
                 }      
             }
@@ -517,7 +511,6 @@ function isCloseToFruit(){
                 if( (ty_fruit4_arr[x] > (ty-.1)) && (ty_fruit4_arr[x]< (ty+.1))) {
                     console.log("POINT\n");
                     touched_fruit4 = true;
-                    //score = score + 1;
                     document.getElementById("score").innerHTML = score;
                 }      
             }
@@ -536,7 +529,6 @@ function isCloseToFruit(){
                 if( (ty_fruit5_arr[x] > (ty-.1)) && (ty_fruit5_arr[x]< (ty+.1))) {
                     console.log("POINT\n");
                     touched_fruit5 = true;
-                    //score = score + 1;
                     document.getElementById("score").innerHTML = score;
                 }      
             }

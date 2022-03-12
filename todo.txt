@@ -1,6 +1,0 @@
-setUpSpider()
-drawSpider()
-
-drawRedAnts()
-moveRedAnts()
-
