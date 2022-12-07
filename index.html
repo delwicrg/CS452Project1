@@ -1,0 +1,145 @@
+<!-- 
+    Rosalina Delwiche and Holly Rossmann
+    CS452 Project 1
+    March 11, 2022
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+            <title>Project 1</title>
+            
+            <script type="text/javascript" src="./Common/webgl-utils.js"></script>
+            <script type="text/javascript" src="./Common/initShaders.js"></script>
+            <script type="text/javascript" src="./Common/MV.js"></script>
+            <script type="text/javascript" src="project1.js"></script>
+            
+            <script type="x-shader/x-vertex" id = "vertex-shader"> 
+            attribute vec4 myPosition;
+            uniform float theta;
+            
+            uniform vec2 mouseCoordinates;
+
+            void main(){
+                float xi, yi, xf, yf;
+
+                xi = myPosition.x;
+                yi = myPosition.y;
+
+
+                xf =  xi * cos(theta) + yi * sin(theta) + mouseCoordinates.x;
+                yf = -xi * sin(theta) + yi * cos(theta) + mouseCoordinates.y ;
+
+                gl_Position.x = xf;            
+                gl_Position.y = yf;
+                gl_Position.z = .0;
+                gl_Position.w = 1.0;
+
+                gl_PointSize = 1.0;
+            }
+            </script>
+
+            <script type="x-shader/x-vertex" id = "vertex-shader-fruit">
+                attribute vec4 myPosition;
+                uniform float theta;
+                
+                uniform vec2 mouseCoordinates;
+    
+                void main(){
+                    float xi, yi, xf, yf;
+    
+                    xi = myPosition.x;
+                    yi = myPosition.y;
+    
+    
+                    xf =  xi * cos(theta) + yi * sin(theta) + mouseCoordinates.x;
+                    yf = -xi * sin(theta) + yi * cos(theta) + mouseCoordinates.y ;
+    
+                    gl_Position.x = xf;            
+                    gl_Position.y = yf;
+                    gl_Position.z = .0;
+                    gl_Position.w = 1.0;
+    
+                    gl_PointSize = 1.0;
+                    gl_Position = myPosition; //remove this if we want shape to move
+                }
+                </script>
+
+                <script type="x-shader/x-vertex" id = "vertex-shader-ant">
+                    attribute vec4 myPosition;
+                    uniform float theta;
+                    
+                    uniform vec2 mouseCoordinates;
+        
+                    void main(){
+                        float xi, yi, xf, yf;
+                        xi = myPosition.x;
+                        yi = myPosition.y;
+    
+                        xf = xi * cos(theta) + yi * sin(theta) + mouseCoordinates.x;
+                        yf = -xi * sin(theta) + yi * cos(theta) + mouseCoordinates.y;
+    
+                        gl_Position.x = xf;
+                        gl_Position.y = yf;
+                        gl_Position.z = 0.0;
+                        gl_Position.w = 1.0;
+    
+                        gl_PointSize = 1.0;
+                    }
+                    </script>
+    
+            <script type ="x-shader/x-fragment" id= "fragment-shader-spider">
+                void main(){
+                    gl_FragColor = vec4(0.933, 0.365, 0.434, 1.0); 
+                }
+            </script>
+
+            <script type="x-shader/x-fragment" id="fragment-shader-fruit">
+                void main() {
+                    gl_FragColor = vec4(0.933, 0.686, 0.38, 1.0);
+                }        
+            </script>
+            
+            <script type="x-shader/x-fragment" id="fragment-shader-ant">
+                void main() {
+                    gl_FragColor = vec4(0.808, 0.286, 0.576, 1.0);
+                }        
+            </script>
+            <script type="x-shader/x-fragment" id="fragment-shader-triangle">
+                void main() {
+                    gl_FragColor = vec4(0.984, 0.565, 0.384, 1.0 ); 
+                }        
+            </script>
+
+            <script type="x-shader/x-fragment" id="fragment-shader-rectangle">
+                void main() {
+                    gl_FragColor = vec4(0.95, 0.3, 0.5, 1.0 );
+                }        
+            </script>
+            
+    </head>
+    <h1>SHAPE MANIA</h1>
+    <body onload = "init()" onkeydown = "moveSquareKeys(event)">
+
+        <div id="overlay">
+            <div> Game will end in: <span id="countdowntimer"> 30 </span> Seconds</div>
+
+            <script type="text/javascript">
+                var remaining = 30;
+                var timer = setInterval(function(){
+                remaining--;
+                document.getElementById("countdowntimer").textContent = remaining;
+                if(remaining <= 0)
+                    clearInterval(timer);
+                },1000);
+            </script>
+
+            <div>Score: <span id="score"></span></div><br>
+            <div>Collect all the circles to win!<span ></span></div>
+            <div>Triangles increase your speed, but squares pause your movement!<span ></span></div>
+            <div>Watch out for moving shapes!<span ></span></div>
+        </div> 
+            
+        <canvas id = "gl-canvas" height = "500" width = "500"></canvas>
+    </body>
+</html>
